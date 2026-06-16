@@ -12,6 +12,7 @@ add_geode_mod(
         src/MCRLayer.cpp
     RESOURCES
         resources/logo.png
+        resources/mcr_button.png
 )
 
 if(MSVC)

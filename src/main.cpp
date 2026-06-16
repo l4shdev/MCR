@@ -7,6 +7,8 @@
 using namespace geode::prelude;
 
 class $modify(MyPlayLayer, PlayLayer) {
+    CCSprite* m_mcrButton = nullptr;
+
     bool init(GJGameLevel* level, bool useReplay, bool dontSave) {
         if (!PlayLayer::init(level, useReplay, dontSave)) return false;
         
@@ -14,6 +16,21 @@ class $modify(MyPlayLayer, PlayLayer) {
         if (MacroManager::get().isPlaying()) {
             MacroManager::get().startPlaying(); // Reset index
         }
+
+        // Add floating button for MCR menu
+        auto winSize = CCDirector::get()->getWinSize();
+        m_mcrButton = CCSprite::create("mcr_button.png");
+        m_mcrButton->setScale(0.1f); // Adjust scale for floating button
+        auto mcrMenu = CCMenu::create();
+        auto mcrMenuItem = CCMenuItemSpriteExtra::create(
+            m_mcrButton,
+            this,
+            menu_selector(MyPlayLayer::onMCRMenu)
+        );
+        mcrMenuItem->setPosition({winSize.width / 2 - 200, winSize.height / 2 - 120}); // Bottom-left corner
+        mcrMenu->addChild(mcrMenuItem);
+        mcrMenu->setPosition({0,0});
+        this->addChild(mcrMenu, 100);
         
         return true;
     }
@@ -33,27 +50,21 @@ class $modify(MyPlayLayer, PlayLayer) {
             MacroManager::get().recordInput(frame, button, player2, down);
         }
     }
+
+    void onMCRMenu(CCObject*) {
+        MCRLayer::create()->show();
+    }
 };
 
 class $modify(MyPauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
         
-        auto winSize = CCDirector::get()->getWinSize();
+        // Remove the MCR button from PauseLayer as it's now in PlayLayer
         auto menu = this->getChildByID("center-menu");
-        
-        auto btnSprite = CircleButtonSprite::createWithSpriteFrameName("GJ_playBtn2_001.png", 0.5f);
-        auto btn = CCMenuItemSpriteExtra::create(
-            btnSprite,
-            this,
-            menu_selector(MyPauseLayer::onMCRMenu)
-        );
-        btn->setID("mcr-button");
-        menu->addChild(btn);
-        menu->updateLayout();
-    }
-
-    void onMCRMenu(CCObject*) {
-        MCRLayer::create()->show();
+        if (menu) {
+            menu->removeChildByID("mcr-button");
+            menu->updateLayout();
+        }
     }
 };

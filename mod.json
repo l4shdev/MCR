@@ -8,8 +8,8 @@
     "id": "l4shdev.mcr",
     "name": "MCR",
     "developer": "l4shdev",
-    "version": "v1.0.0",
-    "description": "A cool and powerful macro bot for Geometry Dash. Created by l4shdev.",
+    "version": "v1.0.1",
+    "description": "A cool and powerful macro bot for Geometry Dash. Created by l4shdev. Now with a floating button for mobile!",
     "repository": "https://github.com/l4shdev/MCR",
     "settings": {
         "autosave": {

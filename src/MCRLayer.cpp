@@ -14,9 +14,10 @@ bool MCRLayer::init() {
     auto menu = CCMenu::create();
     m_mainLayer->addChild(menu);
 
-    auto title = CCLabelBMFont::create("MCR Bot", "goldFont.fnt");
-    title->setPosition({winSize.width / 2, winSize.height / 2 + 80});
-    m_mainLayer->addChild(title);
+    auto logo = CCSprite::create("logo.png");
+    logo->setScale(0.2f); // Adjust scale as needed
+    logo->setPosition({winSize.width / 2, winSize.height / 2 + 80});
+    m_mainLayer->addChild(logo);
 
     auto credit = CCLabelBMFont::create("by l4shdev", "chatFont.fnt");
     credit->setScale(0.6f);
