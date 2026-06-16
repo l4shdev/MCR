@@ -20,10 +20,17 @@ jobs:
           - name: Android64
             os: ubuntu-latest
             target: Android64
+
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
+
     steps:
       - uses: actions/checkout@v4
+      
+      # FIX: Memaksa CMake untuk menemukan lokasi Geode SDK
+      - name: Set Geode Directory
+        run: echo "Geode_DIR=$HOME/.geode/sdk" >> $GITHUB_ENV
+      
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
